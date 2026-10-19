@@ -74,17 +74,6 @@ table {
   min-width: 420px;
   font-size: 0.88rem;
 }
-caption.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
 th,
 td {
   border: 1px solid var(--border);
@@ -99,9 +88,7 @@ thead th {
   top: 0;
   z-index: 2;
 }
-tbody tr:nth-child(even) {
-  background: var(--zebra);
-}
+
 tbody tr.expense:hover {
   background: #eef6ff;
 }
@@ -133,6 +120,16 @@ td.total {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+
+td.subtotal {
+  font-weight: 300;
+  background: var(--total-bg);
+  direction: rtl;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
 tbody tr.expense:hover td.total {
   background: var(--total-bg-hover);
 }
@@ -403,6 +400,7 @@ dialog.modal[open] {
   }
   thead th.month-head {
     min-width: 0;
+    writing-mode: vertical-rl;
     font-size: 0.74rem;
   }
   tr.grand-total td {
