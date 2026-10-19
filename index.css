@@ -1,0 +1,349 @@
+:root {
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --text: #1e1e1e;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #ffc107;
+  --accent-dark: #ff9800;
+  --stripe: #fafafa;
+  --header-bg: #1e1e1e;
+  --header-text: #ffc107;
+  --radius: 14px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  font-family: Vazirmatn, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Layout ---------- */
+#outer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 0 auto;
+  padding: 1rem 1rem 3rem;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.notice-wrapper {
+  text-align: center;
+  width: 100%;
+}
+
+/* ---------- Flashing notice ---------- */
+.flashing-notice {
+  display: block;
+  width: 100%;
+  background-color: var(--accent);
+  color: var(--text);
+  font-weight: 800;
+  font-size: clamp(0.85rem, 3.5vw, 1.1rem);
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  padding: clamp(0.7rem, 2.5vw, 1rem) clamp(1rem, 4vw, 1.6rem);
+  border-radius: var(--radius);
+  box-shadow:
+    0 0 0 3px var(--accent-dark),
+    0 6px 18px rgba(0, 0, 0, 0.15),
+    0 0 0 2px #fff inset;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  animation: flash 1.5s step-start infinite;
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1.05);
+    box-shadow:
+      0 0 0 3px var(--accent-dark),
+      0 6px 18px rgba(0, 0, 0, 0.15),
+      0 0 0 2px #fff inset,
+      0 0 20px 6px rgba(255, 215, 0, 0.55);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.995);
+    filter: brightness(0.92);
+    box-shadow:
+      0 0 0 2px #b86b00,
+      0 3px 10px rgba(0, 0, 0, 0.1),
+      0 0 0 1px #ccc inset;
+  }
+}
+
+/* ---------- Section header card ---------- */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+  border-right: 5px solid var(--accent);
+}
+
+.section-header h1 {
+  font-size: clamp(1.05rem, 4.5vw, 1.5rem);
+  font-weight: 700;
+  margin: 0;
+  flex: 1;
+  color: var(--text);
+}
+
+.section-header .icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
+}
+
+/* ---------- Excel container ---------- */
+#excel-container {
+  width: 100%;
+  max-width: 100%;
+  background: var(--card);
+  box-shadow: var(--shadow-md);
+  overflow: hidden; /* clips the border-radius */
+  position: relative;
+}
+
+/* ---------- Excel image (always contained) ---------- */
+.excel-image-wrap {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: clamp(0.5rem, 2vw, 1rem);
+  background: var(--card);
+  overflow: hidden; /* safety: nothing escapes */
+}
+
+.excel-image {
+  display: block;
+  width: 100%; /* fill the wrapper… */
+  max-width: 100%; /* …but never exceed it */
+  height: auto; /* keep aspect ratio */
+  object-fit: contain;
+  background: #fafafa; /* placeholder while loading */
+}
+
+/* ---------- Small-screen tweaks ---------- */
+@media (max-width: 480px) {
+  #outer {
+    padding: 0.75rem 0.75rem 2rem;
+    gap: 1rem;
+  }
+  .section-header {
+    padding: 0.75rem 0.9rem;
+  }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  .flashing-notice {
+    animation: none;
+    box-shadow:
+      0 0 0 3px var(--accent-dark),
+      0 6px 18px rgba(0, 0, 0, 0.15),
+      0 0 0 2px #fff inset;
+  }
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 560px;
+  font-size: 0.88rem;
+}
+th,
+td {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: center;
+  vertical-align: middle;
+}
+thead th {
+  background: var(--head-bg);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+tbody tr:nth-child(even) {
+  background: var(--zebra);
+}
+tbody tr:hover {
+  background: #eef6ff;
+}
+
+/* ===== month column: vertical text ===== */
+td.month {
+  color: var(--accent);
+  font-weight: 700;
+  background: var(--month-bg);
+  white-space: nowrap;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  letter-spacing: 1px;
+  padding: 10px 4px;
+  width: 1%;
+}
+thead th.month-head {
+  text-orientation: mixed;
+  width: 1%;
+  padding: 10px 4px;
+  white-space: nowrap;
+}
+
+td.total {
+  font-weight: 700;
+  background: var(--total-bg);
+  direction: rtl; /* Persian numerals read RTL */
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+tbody tr:hover td.total {
+  background: var(--total-bg-hover);
+}
+
+td.desc {
+  text-align: right;
+  white-space: normal;
+  font-size: 0.8rem;
+  color: #444;
+}
+td.cat {
+  text-align: right;
+  font-weight: 500;
+}
+td.sub {
+  text-align: right;
+  color: #555;
+  font-size: 0.85rem;
+  padding-right: 24px;
+}
+td.date {
+  font-variant-numeric: tabular-nums;
+  color: #57606a;
+  font-size: 0.82rem;
+}
+
+caption {
+  caption-side: top;
+  text-align: right;
+  padding: 8px 4px;
+  font-weight: 600;
+  color: #57606a;
+  font-size: 0.85rem;
+}
+
+/* ============ SMALL SCREENS ============ */
+@media (max-width: 720px) {
+  body {
+    padding: 12px;
+  }
+
+  .table-wrap {
+    border-radius: 8px;
+  }
+
+  table {
+    font-size: 0.78rem;
+    min-width: 0;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  th,
+  td {
+    padding: 6px 8px;
+  }
+
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 6%;
+  }
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 11%;
+  }
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 31%;
+  }
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 18%;
+  }
+  th:nth-child(5),
+  td:nth-child(5) {
+    width: 34%;
+  }
+
+  td.desc {
+    font-size: 0.72rem;
+    line-height: 1.5;
+  }
+  td.cat {
+    font-size: 0.8rem;
+  }
+  td.sub {
+    font-size: 0.76rem;
+    padding-right: 14px;
+  }
+  td.total {
+    font-size: 0.8rem;
+  }
+  td.date {
+    font-size: 0.72rem;
+  }
+  td.month {
+    font-size: 0.76rem;
+    padding: 8px 2px;
+  }
+  caption {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 420px) {
+  table {
+    font-size: 0.74rem;
+  }
+  th,
+  td {
+    padding: 5px 4px;
+  }
+  td.total {
+    font-size: 0.76rem;
+  }
+  td.desc {
+    font-size: 0.68rem;
+  }
+  td.month {
+    font-size: 0.72rem;
+  }
+}

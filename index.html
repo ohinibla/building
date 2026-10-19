@@ -3,181 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="index.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Vazirmatn:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
     <title>ریز هزینه های ساختمان</title>
-    <style>
-        :root {
-            --bg: #f5f6f8;
-            --card: #ffffff;
-            --text: #1e1e1e;
-            --muted: #6b7280;
-            --border: #e5e7eb;
-            --accent: #ffc107;
-            --accent-dark: #ff9800;
-            --stripe: #fafafa;
-            --header-bg: #1e1e1e;
-            --header-text: #ffc107;
-            --radius: 14px;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-            --shadow-md: 0 4px 14px rgba(0,0,0,.08);
-        }
-
-        * { box-sizing: border-box; }
-
-        html, body { height: 100%; }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-            font-family: Vazirmatn, "Segoe UI", sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ---------- Layout ---------- */
-        #outer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.25rem;
-            margin: 0 auto;
-            padding: 1rem 1rem 3rem;
-            width: 100%;
-            max-width: 1100px;
-        }
-
-        .notice-wrapper {
-            text-align: center;
-            width: 100%;
-        }
-
-        /* ---------- Flashing notice ---------- */
-        .flashing-notice {
-            display: block;
-            width: 100%;
-            background-color: var(--accent);
-            color: var(--text);
-            font-weight: 800;
-            font-size: clamp(0.85rem, 3.5vw, 1.1rem);
-            line-height: 1.7;
-            letter-spacing: 0.02em;
-            padding: clamp(0.7rem, 2.5vw, 1rem) clamp(1rem, 4vw, 1.6rem);
-            border-radius: var(--radius);
-            box-shadow:
-                0 0 0 3px var(--accent-dark),
-                0 6px 18px rgba(0,0,0,.15),
-                0 0 0 2px #fff inset;
-            text-shadow: 1px 1px 0 rgba(255,255,255,.5);
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            animation: flash 1.5s step-start infinite;
-        }
-
-        @keyframes flash {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-                filter: brightness(1.05);
-                box-shadow:
-                    0 0 0 3px var(--accent-dark),
-                    0 6px 18px rgba(0,0,0,.15),
-                    0 0 0 2px #fff inset,
-                    0 0 20px 6px rgba(255,215,0,.55);
-            }
-            50% {
-                opacity: 0.4;
-                transform: scale(0.995);
-                filter: brightness(0.92);
-                box-shadow:
-                    0 0 0 2px #b86b00,
-                    0 3px 10px rgba(0,0,0,.1),
-                    0 0 0 1px #ccc inset;
-            }
-        }
-
-        /* ---------- Section header card ---------- */
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            width: 100%;
-            padding: 0.9rem 1.1rem;
-            background: var(--card);
-            box-shadow: var(--shadow-sm);
-            border-right: 5px solid var(--accent);
-        }
-
-        .section-header h1 {
-            font-size: clamp(1.05rem, 4.5vw, 1.5rem);
-            font-weight: 700;
-            margin: 0;
-            flex: 1;
-            color: var(--text);
-        }
-
-        .section-header .icon {
-            font-size: 1.4rem;
-            line-height: 1;
-            filter: drop-shadow(0 1px 1px rgba(0,0,0,.15));
-        }
-
-        /* ---------- Excel container ---------- */
-        #excel-container {
-            width: 100%;
-            max-width: 100%;
-            background: var(--card);
-            box-shadow: var(--shadow-md);
-            overflow: hidden;                /* clips the border-radius */
-            position: relative;
-        }
-
-        /* ---------- Excel image (always contained) ---------- */
-        .excel-image-wrap {
-            width: 100%;
-            max-width: 100%;
-            display: flex;
-            justify-content: center;
-            padding: clamp(0.5rem, 2vw, 1rem);
-            background: var(--card);
-            overflow: hidden;                /* safety: nothing escapes */
-        }
-
-        .excel-image {
-            display: block;
-            width: 100%;                     /* fill the wrapper… */
-            max-width: 100%;                 /* …but never exceed it */
-            height: auto;                    /* keep aspect ratio */
-            object-fit: contain;
-            background: #fafafa;             /* placeholder while loading */
-        }
-
-        /* ---------- Small-screen tweaks ---------- */
-        @media (max-width: 480px) {
-            #outer { padding: 0.75rem 0.75rem 2rem; gap: 1rem; }
-            .section-header { padding: 0.75rem 0.9rem; }
-        }
-
-        /* Respect users who prefer less motion */
-        @media (prefers-reduced-motion: reduce) {
-            .flashing-notice {
-                animation: none;
-                box-shadow:
-                    0 0 0 3px var(--accent-dark),
-                    0 6px 18px rgba(0,0,0,.15),
-                    0 0 0 2px #fff inset;
-            }
-        }
-    </style>
   </head>
   <body>
     <div id="outer">
       <div class="notice-wrapper">
         <div class="flashing-notice" role="alert" aria-live="polite">
-          خواهشمند است از نگهداری طولانی مدت وسایل در زیرپله یا راهروی پشت بام خودداری نمایید
+          خواهشمند است از نگهداری طولانی مدت وسایل در زیرپله یا راهروی پشت بام
+          خودداری نمایید
         </div>
       </div>
 
@@ -185,17 +25,136 @@
         <span class="icon" aria-hidden="true">📋</span>
         <h1>ریز هزینه های ساختمان</h1>
       </header>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="month-head">ماه</th>
+              <th>تاریخ</th>
+              <th>مورد / واحد</th>
+              <th>مجموع</th>
+              <th>توضیحات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="month" rowspan="7">مرداد</td>
+              <td class="date" rowspan="3">۱۵</td>
+              <td class="cat">نظافت</td>
+              <td class="total">۱٬۱۹۰٬۰۰۰</td>
+              <td class="desc" rowspan="3">
+                از مازاد ماه قبل ۶۸۰ هزار تومان پرداخت شد
+              </td>
+            </tr>
+            <tr>
+              <td class="sub">دستمزد</td>
+              <td class="total">۱٬۳۵۰٬۰۰۰</td>
+            </tr>
+            <tr>
+              <td class="sub">وسایل مورد نیاز</td>
+              <td class="total">۳۳۸٬۵۰۰</td>
+            </tr>
 
-      <div id="excel-container">
-        <div class="excel-image-wrap">
-          <img
-            src="excel.webp"
-            alt="جدول ریز هزینه‌های ساختمان"
-            class="excel-image"
-            loading="lazy"
-            decoding="async"
-          >
-        </div>
+            <tr>
+              <td class="date" rowspan="3">۲۶</td>
+              <td class="cat">لوله آب سرد ساختمان واقع در پارکینگ</td>
+              <td class="total">۱۳٬۰۰۰٬۰۰۰</td>
+              <td class="desc" rowspan="3">مازاد ۳۰۰ هزار تومان</td>
+            </tr>
+            <tr>
+              <td class="sub">دستمزد</td>
+              <td class="total">۵٬۰۰۰٬۰۰۰</td>
+            </tr>
+            <tr>
+              <td class="sub">وسایل مورد نیاز</td>
+              <td class="total">۸٬۰۰۰٬۰۰۰</td>
+            </tr>
+
+            <tr>
+              <td class="date">۱۹</td>
+              <td class="cat">لامپ‌های ورودی</td>
+              <td class="total">۲۴۰٬۰۰۰</td>
+              <td class="desc">از مازاد ماه قبل کلاً پرداخت شد</td>
+            </tr>
+            <tr>
+              <td class="month" rowspan="4">شهریور</td>
+              <td class="date">۱</td>
+              <td class="cat">قبض برق</td>
+              <td class="total">۵۴۰٬۹۰۰</td>
+              <td class="desc">مهلت پرداخت ۲ شهریور (پرداخت شده)</td>
+            </tr>
+            <tr>
+              <td class="date">۱</td>
+              <td class="cat">قبض آب</td>
+              <td class="total">۱٬۲۱۷٬۴۰۰</td>
+              <td class="desc">مهلت پرداخت ۵ شهریور (پرداخت شده)</td>
+            </tr>
+            <tr>
+              <td class="date">۹</td>
+              <td class="cat">سرویس پمپ</td>
+              <td class="total">۱٬۲۰۰٬۰۰۰</td>
+              <td class="desc"></td>
+            </tr>
+            <tr>
+              <td class="date">۲۳</td>
+              <td class="cat">تعمیر پنل آیفون</td>
+              <td class="total">۵۵۰٬۰۰۰</td>
+              <td class="desc"></td>
+            </tr>
+
+            <tr>
+              <td class="month" rowspan="10">مهر</td>
+              <td class="date">۶</td>
+              <td class="cat">قبض برق</td>
+              <td class="total">۵۹۹٬۱۰۰</td>
+              <td class="desc">(پرداخت شده)</td>
+            </tr>
+            <tr>
+              <td class="date" rowspan="2">۹</td>
+              <td class="cat">قبض گاز</td>
+              <td class="total">۱٬۴۵۳٬۳۰۰</td>
+              <td class="desc" rowspan="2">(پرداخت شده)</td>
+            </tr>
+            <tr>
+              <td class="sub">هزینه برقراری مجدد قبض</td>
+              <td class="total">۲۷۰٬۰۰۰</td>
+            </tr>
+            <tr>
+              <td class="date" rowspan="3">۱۶</td>
+              <td class="cat">نظافت</td>
+              <td class="total">۱٬۹۱۷٬۰۰۰</td>
+              <td class="desc" rowspan="3"></td>
+            </tr>
+            <tr>
+              <td class="sub">دستمزد</td>
+              <td class="total">۱٬۶۰۰٬۰۰۰</td>
+            </tr>
+            <tr>
+              <td class="sub">وسایل مورد نیاز</td>
+              <td class="total">۳۱۷٬۰۰۰</td>
+            </tr>
+            <tr>
+              <td class="date" rowspan="3">۲۵</td>
+              <td class="cat">سرویس و تعمیر موتورخانه</td>
+              <td class="total">۶٬۸۰۰٬۰۰۰</td>
+              <td class="desc" rowspan="3"></td>
+            </tr>
+            <tr>
+              <td class="sub">دستمزد</td>
+              <td class="total">۴٬۰۰۰٬۰۰۰</td>
+            </tr>
+            <tr>
+              <td class="sub">وسایل مورد نیاز</td>
+              <td class="total">۲٬۸۰۰٬۰۰۰</td>
+            </tr>
+            <tr>
+              <td class="date">۲۷</td>
+              <td class="cat">تعمیر در پارکینگ</td>
+              <td class="total">۲٬۵۰۰٬۰۰۰</td>
+              <td class="desc"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </body>
