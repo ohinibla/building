@@ -73,6 +73,9 @@ function render(data) {
     month.items.forEach((item, itemIndex) => {
       const tr = document.createElement("tr");
       tr.className = "expense";
+      if (item.paid === false) {
+        tr.classList.add("unpaid");
+      }
       tr.tabIndex = 0;
       tr.setAttribute("role", "button");
       tr.setAttribute("aria-haspopup", "dialog");
@@ -121,7 +124,8 @@ function render(data) {
         tdSub.className = "sub";
         tdSub.textContent = sub.title;
         const tdSubTotal = document.createElement("td");
-        tdSubTotal.className = "total";
+        tdSubTotal.className = "subtotal";
+        if (item.paid === false) subTr.classList.add("unpaid");
         tdSubTotal.textContent = faNum(sub.amount);
         subTr.appendChild(tdSub);
         subTr.appendChild(tdSubTotal);
@@ -135,7 +139,7 @@ function render(data) {
     tdLabel.colSpan = 3;
     tdLabel.textContent = "جمع " + month.name;
     const tdSum = document.createElement("td");
-    tdSum.className = "subtotal";
+    tdSum.className = "total";
     tdSum.textContent = faNum(monthTotal);
     subTr.appendChild(tdLabel);
     subTr.appendChild(tdSum);
@@ -171,7 +175,7 @@ fetch("https://ohinibla.github.io/building/data.json")
     console.error(err);
     showError(
       "خطا در بارگذاری داده‌ها. اگر فایل را مستقیم از دیسک باز کرده‌اید، " +
-        "لطفاً آن را روی یک وب‌سرور ساده اجرا کنید.",
+      "لطفاً آن را روی یک وب‌سرور ساده اجرا کنید.",
     );
   });
 

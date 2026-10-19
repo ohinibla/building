@@ -40,6 +40,7 @@ h1 {
 .flashing-notice {
   background: #fff8e1;
   border: 1px solid #ffe08a;
+  text-align: center;
   color: #5c4400;
   border-radius: 8px;
   padding: 10px 14px;
@@ -93,6 +94,7 @@ tbody tr.expense:hover {
   background: #eef6ff;
 }
 
+/* Desktop */
 td.month {
   color: var(--accent);
   font-weight: 700;
@@ -100,14 +102,18 @@ td.month {
   white-space: normal;
   text-align: center;
   padding: 10px 4px;
-  width: 1%;
-  min-width: 48px;
+  width: 32px;
+  min-width: 32px;
+  max-width: 32px;
   font-size: 0.82rem;
   line-height: 1.3;
+  writing-mode: vertical-lr;
 }
+
 thead th.month-head {
-  width: 1%;
-  min-width: 48px;
+  width: 32px;
+  min-width: 32px;
+  max-width: 32px;
   padding: 8px 4px;
   white-space: nowrap;
 }
@@ -198,6 +204,42 @@ tr.expense:hover .has-detail::after {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Unpaid: subtle amber tint + accent left border + bold amount */
+tr.expense.unpaid {
+  background: #fff4e5;
+}
+tr.expense.unpaid:hover {
+  background: #ffe8cc;
+}
+tr.expense.unpaid td.cat {
+  font-weight: 700;
+  color: #8a4b00;
+}
+tr.expense.unpaid td.total {
+  background: #ffe0b2;
+  color: #7a3d00;
+}
+/* small dot indicator before the title, optional */
+tr.expense.unpaid td.cat::before {
+  content: "●";
+  color: #d97706;
+  font-size: 0.6rem;
+  margin-inline-end: 6px;
+  vertical-align: middle;
+}
+
+tr.expense.unpaid td.cat::after {
+  content: "پرداخت نشده";
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #b45309;
+  background: #fef3c7;
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-inline-start: 8px;
+  animation: flash 2s ease-in-out infinite;
 }
 
 .status-msg {
@@ -365,19 +407,24 @@ dialog.modal[open] {
 
   th:nth-child(1),
   td:nth-child(1) {
-    width: 14%;
+    width: 32px;
+    min-width: 32px;
+    max-width: 32px;
   }
+
   th:nth-child(2),
   td:nth-child(2) {
     width: 12%;
   }
+
   th:nth-child(3),
   td:nth-child(3) {
-    width: 46%;
+    width: auto;
   }
+
   th:nth-child(4),
   td:nth-child(4) {
-    width: 28%;
+    width: 26%;
   }
 
   td.cat {
@@ -396,12 +443,11 @@ dialog.modal[open] {
   td.month {
     font-size: 0.74rem;
     padding: 6px 2px;
-    min-width: 0;
+    /* width/min/max inherited from the rule above — do NOT reset to 0 */
   }
   thead th.month-head {
-    min-width: 0;
-    writing-mode: vertical-rl;
     font-size: 0.74rem;
+    /* width inherited — do NOT reset */
   }
   tr.grand-total td {
     font-size: 0.88rem;
