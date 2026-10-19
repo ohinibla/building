@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="index.css" rel="stylesheet" />
+    <link href="./index.css" rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Vazirmatn:wght@100..900&display=swap"
       rel="stylesheet"
@@ -15,147 +15,261 @@
   <body>
     <div id="outer">
       <div class="notice-wrapper">
-        <div class="flashing-notice" role="alert" aria-live="polite">
-          خواهشمند است از نگهداری طولانی مدت وسایل در زیرپله یا راهروی پشت بام
-          خودداری نمایید
-        </div>
+        <div
+          class="flashing-notice"
+          id="notice"
+          role="alert"
+          aria-live="polite"
+        ></div>
       </div>
 
       <header class="section-header">
         <span class="icon" aria-hidden="true">📋</span>
-        <h1>ریز هزینه های ساختمان</h1>
+        <h1 id="pageTitle">ریز هزینه های ساختمان</h1>
       </header>
+
       <div class="table-wrap">
         <table>
+          <caption class="sr-only">
+            ریز هزینه‌های ساختمان به تفکیک ماه
+          </caption>
           <thead>
             <tr>
-              <th class="month-head">ماه</th>
-              <th>تاریخ</th>
-              <th>مورد / واحد</th>
-              <th>مجموع</th>
-              <th>توضیحات</th>
+              <th class="month-head" scope="col">ماه</th>
+              <th scope="col">تاریخ</th>
+              <th scope="col">مورد / واحد</th>
+              <th scope="col">مجموع</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="tableBody">
             <tr>
-              <td class="month" rowspan="7">مرداد</td>
-              <td class="date" rowspan="3">۱۵</td>
-              <td class="cat">نظافت</td>
-              <td class="total">۱٬۱۹۰٬۰۰۰</td>
-              <td class="desc" rowspan="3">
-                از مازاد ماه قبل ۶۸۰ هزار تومان پرداخت شد
-              </td>
-            </tr>
-            <tr>
-              <td class="sub">دستمزد</td>
-              <td class="total">۱٬۳۵۰٬۰۰۰</td>
-            </tr>
-            <tr>
-              <td class="sub">وسایل مورد نیاز</td>
-              <td class="total">۳۳۸٬۵۰۰</td>
-            </tr>
-
-            <tr>
-              <td class="date" rowspan="3">۲۶</td>
-              <td class="cat">لوله آب سرد ساختمان واقع در پارکینگ</td>
-              <td class="total">۱۳٬۰۰۰٬۰۰۰</td>
-              <td class="desc" rowspan="3">مازاد ۳۰۰ هزار تومان</td>
-            </tr>
-            <tr>
-              <td class="sub">دستمزد</td>
-              <td class="total">۵٬۰۰۰٬۰۰۰</td>
-            </tr>
-            <tr>
-              <td class="sub">وسایل مورد نیاز</td>
-              <td class="total">۸٬۰۰۰٬۰۰۰</td>
-            </tr>
-
-            <tr>
-              <td class="date">۱۹</td>
-              <td class="cat">لامپ‌های ورودی</td>
-              <td class="total">۲۴۰٬۰۰۰</td>
-              <td class="desc">از مازاد ماه قبل کلاً پرداخت شد</td>
-            </tr>
-            <tr>
-              <td class="month" rowspan="4">شهریور</td>
-              <td class="date">۱</td>
-              <td class="cat">قبض برق</td>
-              <td class="total">۵۴۰٬۹۰۰</td>
-              <td class="desc">مهلت پرداخت ۲ شهریور (پرداخت شده)</td>
-            </tr>
-            <tr>
-              <td class="date">۱</td>
-              <td class="cat">قبض آب</td>
-              <td class="total">۱٬۲۱۷٬۴۰۰</td>
-              <td class="desc">مهلت پرداخت ۵ شهریور (پرداخت شده)</td>
-            </tr>
-            <tr>
-              <td class="date">۹</td>
-              <td class="cat">سرویس پمپ</td>
-              <td class="total">۱٬۲۰۰٬۰۰۰</td>
-              <td class="desc"></td>
-            </tr>
-            <tr>
-              <td class="date">۲۳</td>
-              <td class="cat">تعمیر پنل آیفون</td>
-              <td class="total">۵۵۰٬۰۰۰</td>
-              <td class="desc"></td>
-            </tr>
-
-            <tr>
-              <td class="month" rowspan="10">مهر</td>
-              <td class="date">۶</td>
-              <td class="cat">قبض برق</td>
-              <td class="total">۵۹۹٬۱۰۰</td>
-              <td class="desc">(پرداخت شده)</td>
-            </tr>
-            <tr>
-              <td class="date" rowspan="2">۹</td>
-              <td class="cat">قبض گاز</td>
-              <td class="total">۱٬۴۵۳٬۳۰۰</td>
-              <td class="desc" rowspan="2">(پرداخت شده)</td>
-            </tr>
-            <tr>
-              <td class="sub">هزینه برقراری مجدد قبض</td>
-              <td class="total">۲۷۰٬۰۰۰</td>
-            </tr>
-            <tr>
-              <td class="date" rowspan="3">۱۶</td>
-              <td class="cat">نظافت</td>
-              <td class="total">۱٬۹۱۷٬۰۰۰</td>
-              <td class="desc" rowspan="3"></td>
-            </tr>
-            <tr>
-              <td class="sub">دستمزد</td>
-              <td class="total">۱٬۶۰۰٬۰۰۰</td>
-            </tr>
-            <tr>
-              <td class="sub">وسایل مورد نیاز</td>
-              <td class="total">۳۱۷٬۰۰۰</td>
-            </tr>
-            <tr>
-              <td class="date" rowspan="3">۲۵</td>
-              <td class="cat">سرویس و تعمیر موتورخانه</td>
-              <td class="total">۶٬۸۰۰٬۰۰۰</td>
-              <td class="desc" rowspan="3"></td>
-            </tr>
-            <tr>
-              <td class="sub">دستمزد</td>
-              <td class="total">۴٬۰۰۰٬۰۰۰</td>
-            </tr>
-            <tr>
-              <td class="sub">وسایل مورد نیاز</td>
-              <td class="total">۲٬۸۰۰٬۰۰۰</td>
-            </tr>
-            <tr>
-              <td class="date">۲۷</td>
-              <td class="cat">تعمیر در پارکینگ</td>
-              <td class="total">۲٬۵۰۰٬۰۰۰</td>
-              <td class="desc"></td>
+              <td colspan="4" class="status-msg">در حال بارگذاری…</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+
+    <dialog class="modal" id="expenseDialog" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <button class="modal-close" id="modalClose" aria-label="بستن">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-amount" id="modalAmount"></div>
+        <div class="modal-desc" id="modalDesc"></div>
+        <div id="gallerySection" style="display: none">
+          <p class="gallery-title">تصاویر فاکتور</p>
+          <div class="gallery" id="modalGallery"></div>
+        </div>
+      </div>
+    </dialog>
+
+    <script>
+      const faNum = (n) => Number(n).toLocaleString("fa-IR");
+      const faDay = (n) =>
+        Number(n).toLocaleString("fa-IR", { useGrouping: false });
+
+      const tbody = document.getElementById("tableBody");
+      const noticeEl = document.getElementById("notice");
+      const pageTitle = document.getElementById("pageTitle");
+
+      /* ---------- MODAL ---------- */
+      const dialog = document.getElementById("expenseDialog");
+      const titleEl = document.getElementById("modalTitle");
+      const amountEl = document.getElementById("modalAmount");
+      const descEl = document.getElementById("modalDesc");
+      const gallerySection = document.getElementById("gallerySection");
+      const galleryEl = document.getElementById("modalGallery");
+      const closeBtn = document.getElementById("modalClose");
+
+      function openModal(item, monthName) {
+        titleEl.textContent = item.title;
+        const small = document.createElement("small");
+        small.textContent = monthName + " — " + faDay(item.day);
+        titleEl.appendChild(small);
+
+        amountEl.textContent = faNum(item.amount) + " تومان";
+
+        descEl.textContent = item.desc || "";
+        descEl.style.display = item.desc ? "block" : "none";
+
+        galleryEl.innerHTML = "";
+        if (item.images && item.images.length) {
+          gallerySection.style.display = "block";
+          item.images.forEach((src, i) => {
+            const a = document.createElement("a");
+            a.href = src;
+            a.target = "_blank";
+            a.rel = "noopener";
+            const img = document.createElement("img");
+            img.src = src;
+            img.alt = "تصویر فاکتور " + faNum(i + 1);
+            img.loading = "lazy";
+            img.onerror = () => {
+              a.textContent = "تصویر بارگذاری نشد";
+              a.style.cssText =
+                "display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:#999;";
+            };
+            a.appendChild(img);
+            galleryEl.appendChild(a);
+          });
+        } else {
+          gallerySection.style.display = "none";
+        }
+
+        dialog.showModal();
+      }
+
+      /* ---------- RENDER ---------- */
+      function render(data) {
+        if (data.title) {
+          pageTitle.textContent = data.title;
+          document.title = data.title;
+        }
+        if (data.notice) noticeEl.textContent = data.notice;
+
+        tbody.innerHTML = "";
+        let grandTotal = 0;
+
+        (data.months || []).forEach((month) => {
+          const monthSpan =
+            month.items.length +
+            month.items.reduce(
+              (acc, it) => acc + (it.subs ? it.subs.length : 0),
+              0,
+            );
+          const monthTotal = month.items.reduce(
+            (acc, it) => acc + it.amount,
+            0,
+          );
+          grandTotal += monthTotal;
+
+          month.items.forEach((item, itemIndex) => {
+            const tr = document.createElement("tr");
+            tr.className = "expense";
+            tr.tabIndex = 0;
+            tr.setAttribute("role", "button");
+            tr.setAttribute("aria-haspopup", "dialog");
+            tr.dataset.month = month.name;
+            // store item as JSON for the modal (or use an index; JSON is simplest here)
+            tr.dataset.item = JSON.stringify(item);
+
+            const hasDesc = item.desc && item.desc.trim().length > 0;
+            const hasImages = item.images && item.images.length > 0;
+
+            if (itemIndex === 0) {
+              const tdMonth = document.createElement("td");
+              tdMonth.className = "month";
+              tdMonth.rowSpan = monthSpan;
+              tdMonth.textContent = month.name;
+              tr.appendChild(tdMonth);
+            }
+
+            const tdDate = document.createElement("td");
+            tdDate.className = "date";
+            tdDate.rowSpan = 1 + (item.subs ? item.subs.length : 0);
+            tdDate.textContent = faDay(item.day);
+            tr.appendChild(tdDate);
+
+            const tdCat = document.createElement("td");
+            tdCat.className =
+              "cat" + (hasDesc || hasImages ? " has-detail" : "");
+            tdCat.textContent = item.title;
+            if (hasDesc || hasImages) {
+              const sr = document.createElement("span");
+              sr.className = "sr-only";
+              sr.textContent = " (جزئیات دارد)";
+              tdCat.appendChild(sr);
+            }
+            tr.appendChild(tdCat);
+
+            const tdTotal = document.createElement("td");
+            tdTotal.className = "total";
+            tdTotal.textContent = faNum(item.amount);
+            tr.appendChild(tdTotal);
+
+            tbody.appendChild(tr);
+
+            (item.subs || []).forEach((sub) => {
+              const subTr = document.createElement("tr");
+              const tdSub = document.createElement("td");
+              tdSub.className = "sub";
+              tdSub.textContent = sub.title;
+              const tdSubTotal = document.createElement("td");
+              tdSubTotal.className = "total";
+              tdSubTotal.textContent = faNum(sub.amount);
+              subTr.appendChild(tdSub);
+              subTr.appendChild(tdSubTotal);
+              tbody.appendChild(subTr);
+            });
+          });
+
+          const subTr = document.createElement("tr");
+          subTr.className = "subtotal";
+          const tdLabel = document.createElement("td");
+          tdLabel.colSpan = 3;
+          tdLabel.textContent = "جمع " + month.name;
+          const tdSum = document.createElement("td");
+          tdSum.className = "total";
+          tdSum.textContent = faNum(monthTotal);
+          subTr.appendChild(tdLabel);
+          subTr.appendChild(tdSum);
+          tbody.appendChild(subTr);
+        });
+
+        const grandTr = document.createElement("tr");
+        grandTr.className = "grand-total";
+        const gLabel = document.createElement("td");
+        gLabel.colSpan = 3;
+        gLabel.textContent = "جمع کل";
+        const gSum = document.createElement("td");
+        gSum.className = "total";
+        gSum.textContent = faNum(grandTotal);
+        grandTr.appendChild(gLabel);
+        grandTr.appendChild(gSum);
+        tbody.appendChild(grandTr);
+      }
+
+      function showError(msg) {
+        tbody.innerHTML =
+          '<tr><td colspan="4" class="status-msg error">' + msg + "</td></tr>";
+      }
+
+      /* ---------- LOAD DATA ---------- */
+      fetch("https://ohinibla.github.io/building/data.json")
+        .then((res) => {
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          return res.json();
+        })
+        .then(render)
+        .catch((err) => {
+          console.error(err);
+          showError(
+            "خطا در بارگذاری داده‌ها. اگر فایل را مستقیم از دیسک باز کرده‌اید، " +
+              "لطفاً آن را روی یک وب‌سرور ساده اجرا کنید.",
+          );
+        });
+
+      /* ---------- EVENTS ---------- */
+      tbody.addEventListener("click", (e) => {
+        const tr = e.target.closest("tr.expense");
+        if (!tr) return;
+        openModal(JSON.parse(tr.dataset.item), tr.dataset.month);
+      });
+
+      tbody.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        const tr = e.target.closest("tr.expense");
+        if (!tr) return;
+        e.preventDefault();
+        openModal(JSON.parse(tr.dataset.item), tr.dataset.month);
+      });
+
+      closeBtn.addEventListener("click", () => dialog.close());
+      dialog.addEventListener("click", (e) => {
+        if (e.target === dialog) dialog.close();
+      });
+    </script>
   </body>
 </html>
