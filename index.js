@@ -15,6 +15,56 @@ const gallerySection = document.getElementById("gallerySection");
 const galleryEl = document.getElementById("modalGallery");
 const closeBtn = document.getElementById("modalClose");
 
+/* lightbox */
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+const lightboxClose = document.getElementById("lightboxClose");
+const lightboxPrev = document.getElementById("lightboxPrev");
+const lightboxNext = document.getElementById("lightboxNext");
+const lightboxCounter = document.getElementById("lightboxCounter");
+
+let lightboxImages = [];
+let lightboxIndex = 0;
+
+function openLightbox(images, index) {
+  lightboxImages = images;
+  lightboxIndex = index;
+  updateLightbox();
+  lightbox.showModal();
+}
+
+function updateLightbox() {
+  const src = lightboxImages[lightboxIndex];
+  lightboxImg.src = src;
+  lightboxImg.alt = "تصویر فاکتور " + faNum(lightboxIndex + 1);
+  const multiple = lightboxImages.length > 1;
+  lightboxPrev.hidden = !multiple;
+  lightboxNext.hidden = !multiple;
+  lightboxCounter.textContent = multiple
+    ? faNum(lightboxIndex + 1) + " / " + faNum(lightboxImages.length)
+    : "";
+}
+
+function lightboxStep(delta) {
+  if (lightboxImages.length < 2) return;
+  lightboxIndex =
+    (lightboxIndex + delta + lightboxImages.length) % lightboxImages.length;
+  updateLightbox();
+}
+
+lightboxClose.addEventListener("click", () => lightbox.close());
+lightboxPrev.addEventListener("click", () => lightboxStep(-1));
+lightboxNext.addEventListener("click", () => lightboxStep(1));
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) lightbox.close();
+});
+lightbox.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft")
+    lightboxStep(1); // RTL: left = next
+  else if (e.key === "ArrowRight") lightboxStep(-1);
+});
+
+/* expense modal */
 function openModal(item, monthName) {
   titleEl.textContent = item.title;
   const small = document.createElement("small");
@@ -26,7 +76,7 @@ function openModal(item, monthName) {
   descEl.textContent = item.desc || "";
   descEl.style.display = item.desc ? "block" : "none";
 
-  // subs breakdown
+  // subs
   subsBody.innerHTML = "";
   if (item.subs && item.subs.length) {
     subsSection.style.display = "block";
@@ -45,26 +95,27 @@ function openModal(item, monthName) {
     subsSection.style.display = "none";
   }
 
-  // images
+  // gallery — buttons that open the lightbox
   galleryEl.innerHTML = "";
-  if (item.images && item.images.length) {
+  const images = item.images || [];
+  if (images.length) {
     gallerySection.style.display = "block";
-    item.images.forEach((src, i) => {
-      const a = document.createElement("a");
-      a.href = src;
-      a.target = "_blank";
-      a.rel = "noopener";
+    images.forEach((src, i) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.setAttribute("aria-label", "باز کردن تصویر " + faNum(i + 1));
       const img = document.createElement("img");
       img.src = src;
       img.alt = "تصویر فاکتور " + faNum(i + 1);
       img.loading = "lazy";
       img.onerror = () => {
-        a.textContent = "تصویر بارگذاری نشد";
-        a.style.cssText =
-          "display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:#999;";
+        btn.textContent = "تصویر بارگذاری نشد";
+        btn.style.cssText =
+          "display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:#999;cursor:default;";
       };
-      a.appendChild(img);
-      galleryEl.appendChild(a);
+      btn.appendChild(img);
+      btn.addEventListener("click", () => openLightbox(images, i));
+      galleryEl.appendChild(btn);
     });
   } else {
     gallerySection.style.display = "none";
@@ -86,7 +137,6 @@ function render(data) {
   (data.months || []).forEach((month) => {
     const monthTotal = month.items.reduce((acc, it) => acc + it.amount, 0);
     grandTotal += monthTotal;
-    // no subs in the table anymore → one row per item → rowspan = items.length
     const monthSpan = month.items.length;
 
     month.items.forEach((item, itemIndex) => {
@@ -112,7 +162,6 @@ function render(data) {
       tdDate.textContent = faDay(item.day);
       tr.appendChild(tdDate);
 
-      // title cell: title on line 1, badges on line 2
       const tdCat = document.createElement("td");
       tdCat.className = "cat";
 
@@ -129,13 +178,18 @@ function render(data) {
 
       const hasDesc = !!(item.desc && item.desc.trim());
       const hasImages = !!(item.images && item.images.length);
-      const hasDetails =
-        hasDesc || hasImages || (item.subs && item.subs.length);
+      const hasSubs = !!(item.subs && item.subs.length);
 
-      if (hasDetails) {
+      if (hasDesc || hasSubs) {
         const b = document.createElement("span");
-        b.className = "badge badge-detail";
-        b.textContent = "جزئیات";
+        b.className = "badge badge-desc";
+        b.textContent = "توضیحات";
+        badges.appendChild(b);
+      }
+      if (hasImages) {
+        const b = document.createElement("span");
+        b.className = "badge badge-img";
+        b.textContent = "فاکتور";
         badges.appendChild(b);
       }
       if (item.paid === false) {
@@ -196,7 +250,10 @@ fetch("data.json")
   .then(render)
   .catch((err) => {
     console.error(err);
-    showError("خطا در بارگذاری داده‌ها.");
+    showError(
+      "خطا در بارگذاری داده‌ها. اگر فایل را مستقیم از دیسک باز کرده‌اید، " +
+      "لطفاً آن را روی یک وب‌سرور ساده اجرا کنید.",
+    );
   });
 
 tbody.addEventListener("click", (e) => {

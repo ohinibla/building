@@ -6,7 +6,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="index.css" rel="stylesheet" />
-    <script src="./index.js" defer></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Vazirmatn:wght@100..900&display=swap"
       rel="stylesheet"
@@ -38,7 +37,7 @@
             <tr>
               <th class="month-head" scope="col">ماه</th>
               <th scope="col">تاریخ</th>
-              <th scope="col">مورد / واحد</th>
+              <th scope="col">مورد</th>
               <th scope="col">مجموع</th>
             </tr>
           </thead>
@@ -51,6 +50,7 @@
       </div>
     </div>
 
+    <!-- ===== expense detail modal ===== -->
     <dialog class="modal" id="expenseDialog" aria-labelledby="modalTitle">
       <div class="modal-header">
         <h2 class="modal-title" id="modalTitle"></h2>
@@ -77,5 +77,30 @@
         </div>
       </div>
     </dialog>
+
+    <!-- ===== image lightbox modal ===== -->
+    <dialog class="lightbox" id="lightbox" aria-label="نمایش تصویر فاکتور">
+      <button class="lightbox-close" id="lightboxClose" aria-label="بستن">
+        ×
+      </button>
+      <button
+        class="lightbox-nav lightbox-prev"
+        id="lightboxPrev"
+        aria-label="تصویر قبلی"
+      >
+        ‹
+      </button>
+      <img class="lightbox-img" id="lightboxImg" alt="" />
+      <button
+        class="lightbox-nav lightbox-next"
+        id="lightboxNext"
+        aria-label="تصویر بعدی"
+      >
+        ›
+      </button>
+      <div class="lightbox-counter" id="lightboxCounter"></div>
+    </dialog>
+
+    <script src="index.js" defer></script>
   </body>
 </html>
