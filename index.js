@@ -7,7 +7,6 @@ const pageTitle = document.getElementById("pageTitle");
 
 const dialog = document.getElementById("expenseDialog");
 const titleEl = document.getElementById("modalTitle");
-const amountEl = document.getElementById("modalAmount");
 const descEl = document.getElementById("modalDesc");
 const subsSection = document.getElementById("subsSection");
 const subsBody = document.getElementById("modalSubs");
@@ -70,8 +69,6 @@ function openModal(item, monthName) {
   const small = document.createElement("small");
   small.textContent = monthName + " — " + faDay(item.day);
   titleEl.appendChild(small);
-
-  amountEl.textContent = faNum(item.amount) + " تومان";
 
   descEl.textContent = item.desc || "";
   descEl.style.display = item.desc ? "block" : "none";
@@ -197,12 +194,6 @@ function render(data) {
         b.textContent = "فاکتور";
         badges.appendChild(b);
       }
-      if (item.paid === false) {
-        const b = document.createElement("span");
-        b.className = "badge badge-unpaid";
-        b.textContent = "پرداخت نشده";
-        badges.appendChild(b);
-      }
 
       if (badges.childNodes.length) inner.appendChild(badges);
       tdCat.appendChild(inner);
@@ -212,6 +203,13 @@ function render(data) {
       tdTotal.className = "total";
       tdTotal.textContent = faNum(item.amount);
       tr.appendChild(tdTotal);
+
+      if (item.paid === false) {
+        const b = document.createElement("span");
+        b.className = "badge badge-unpaid";
+        b.textContent = "پرداخت نشده";
+        tdTotal.appendChild(b);
+      }
 
       tbody.appendChild(tr);
     });
