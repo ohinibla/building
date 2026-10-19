@@ -8,6 +8,14 @@
   --month-bg: #f0f7ff;
   --subtotal-bg: #eef4fb;
   --grand-bg: #e7f0ff;
+  --unpaid-bg: #fff4e5;
+  --unpaid-bg-hover: #ffe8cc;
+  --unpaid-total-bg: #ffe0b2;
+  --unpaid-fg: #8a4b00;
+  --badge-unpaid-bg: #fef3c7;
+  --badge-unpaid-fg: #b45309;
+  --badge-detail-bg: #e7f0ff;
+  --badge-detail-fg: #0b4a8f;
 }
 * {
   box-sizing: border-box;
@@ -40,7 +48,6 @@ h1 {
 .flashing-notice {
   background: #fff8e1;
   border: 1px solid #ffe08a;
-  text-align: center;
   color: #5c4400;
   border-radius: 8px;
   padding: 10px 14px;
@@ -55,11 +62,6 @@ h1 {
   }
   60% {
     opacity: 0.7;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .flashing-notice {
-    animation: none;
   }
 }
 
@@ -94,7 +96,6 @@ tbody tr.expense:hover {
   background: #eef6ff;
 }
 
-/* Desktop */
 td.month {
   color: var(--accent);
   font-weight: 700;
@@ -102,33 +103,20 @@ td.month {
   white-space: normal;
   text-align: center;
   padding: 10px 4px;
-  width: 32px;
-  min-width: 32px;
-  max-width: 32px;
+  width: 1%;
+  min-width: 48px;
   font-size: 0.82rem;
   line-height: 1.3;
-  writing-mode: vertical-lr;
 }
-
 thead th.month-head {
-  width: 32px;
-  min-width: 32px;
-  max-width: 32px;
+  width: 1%;
+  min-width: 48px;
   padding: 8px 4px;
   white-space: nowrap;
 }
 
 td.total {
   font-weight: 700;
-  background: var(--total-bg);
-  direction: rtl;
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-td.subtotal {
-  font-weight: 300;
   background: var(--total-bg);
   direction: rtl;
   text-align: center;
@@ -144,16 +132,60 @@ td.cat {
   text-align: right;
   font-weight: 500;
 }
-td.sub {
-  text-align: right;
-  color: #555;
-  font-size: 0.85rem;
-  padding-right: 24px;
-}
 td.date {
   font-variant-numeric: tabular-nums;
   color: #57606a;
   font-size: 0.82rem;
+}
+
+/* ===== title cell: title on line 1, badges on line 2 ===== */
+.cat-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.cat-title {
+  display: block;
+}
+.cat-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.4;
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.badge-unpaid {
+  color: var(--badge-unpaid-fg);
+  background: var(--badge-unpaid-bg);
+  animation: flash 2s ease-in-out infinite;
+}
+.badge-detail {
+  color: var(--badge-detail-fg);
+  background: var(--badge-detail-bg);
+}
+
+/* ===== unpaid row treatment ===== */
+tr.expense.unpaid {
+  background: var(--unpaid-bg);
+}
+tr.expense.unpaid:hover {
+  background: var(--unpaid-bg-hover);
+}
+tr.expense.unpaid td.cat {
+  font-weight: 700;
+  color: var(--unpaid-fg);
+}
+tr.expense.unpaid td.total {
+  background: var(--unpaid-total-bg);
+  color: #7a3d00;
 }
 
 tr.subtotal td {
@@ -183,17 +215,7 @@ tr.expense:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: -2px;
 }
-.has-detail::after {
-  content: "ℹ";
-  font-size: 0.7rem;
-  color: var(--accent);
-  margin-inline-start: 6px;
-  vertical-align: super;
-  opacity: 0.7;
-}
-tr.expense:hover .has-detail::after {
-  opacity: 1;
-}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -204,42 +226,6 @@ tr.expense:hover .has-detail::after {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-
-/* Unpaid: subtle amber tint + accent left border + bold amount */
-tr.expense.unpaid {
-  background: #fff4e5;
-}
-tr.expense.unpaid:hover {
-  background: #ffe8cc;
-}
-tr.expense.unpaid td.cat {
-  font-weight: 700;
-  color: #8a4b00;
-}
-tr.expense.unpaid td.total {
-  background: #ffe0b2;
-  color: #7a3d00;
-}
-/* small dot indicator before the title, optional */
-tr.expense.unpaid td.cat::before {
-  content: "●";
-  color: #d97706;
-  font-size: 0.6rem;
-  margin-inline-end: 6px;
-  vertical-align: middle;
-}
-
-tr.expense.unpaid td.cat::after {
-  content: "پرداخت نشده";
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: #b45309;
-  background: #fef3c7;
-  border-radius: 4px;
-  padding: 1px 6px;
-  margin-inline-start: 8px;
-  animation: flash 2s ease-in-out infinite;
 }
 
 .status-msg {
@@ -353,6 +339,38 @@ dialog.modal[open] {
   display: none;
 }
 
+/* ===== modal breakdown (was sub-rows) ===== */
+.modal-subs-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #57606a;
+  margin: 0 0 8px;
+  text-align: right;
+}
+.modal-subs {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+.modal-subs th,
+.modal-subs td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+}
+.modal-subs th {
+  background: var(--head-bg);
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+.modal-subs td:first-child {
+  text-align: right;
+  color: #444;
+}
+.modal-subs td.total {
+  background: var(--total-bg);
+  font-weight: 700;
+}
+
 .gallery-title {
   font-size: 0.82rem;
   font-weight: 600;
@@ -387,6 +405,13 @@ dialog.modal[open] {
   display: block;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .flashing-notice,
+  .badge-unpaid {
+    animation: none;
+  }
+}
+
 @media (max-width: 720px) {
   body {
     padding: 12px;
@@ -407,32 +432,27 @@ dialog.modal[open] {
 
   th:nth-child(1),
   td:nth-child(1) {
-    width: 32px;
-    min-width: 32px;
-    max-width: 32px;
+    width: 14%;
   }
-
   th:nth-child(2),
   td:nth-child(2) {
     width: 12%;
   }
-
   th:nth-child(3),
   td:nth-child(3) {
-    width: auto;
+    width: 46%;
   }
-
   th:nth-child(4),
   td:nth-child(4) {
-    width: 26%;
+    width: 28%;
   }
 
   td.cat {
     font-size: 0.8rem;
   }
-  td.sub {
-    font-size: 0.76rem;
-    padding-right: 14px;
+  .badge {
+    font-size: 0.62rem;
+    padding: 1px 5px;
   }
   td.total {
     font-size: 0.8rem;
@@ -443,11 +463,11 @@ dialog.modal[open] {
   td.month {
     font-size: 0.74rem;
     padding: 6px 2px;
-    /* width/min/max inherited from the rule above — do NOT reset to 0 */
+    min-width: 0;
   }
   thead th.month-head {
+    min-width: 0;
     font-size: 0.74rem;
-    /* width inherited — do NOT reset */
   }
   tr.grand-total td {
     font-size: 0.88rem;
@@ -466,6 +486,9 @@ dialog.modal[open] {
   }
   td.month {
     font-size: 0.7rem;
+  }
+  .badge {
+    font-size: 0.58rem;
   }
   dialog.modal {
     max-height: 95vh;
@@ -504,8 +527,8 @@ dialog.modal[open] {
   tr.expense {
     cursor: default;
   }
-  .has-detail::after {
-    content: "";
+  .badge-unpaid {
+    animation: none;
   }
   .table-wrap {
     box-shadow: none;

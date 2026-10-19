@@ -5,11 +5,12 @@ const tbody = document.getElementById("tableBody");
 const noticeEl = document.getElementById("notice");
 const pageTitle = document.getElementById("pageTitle");
 
-/* ---------- MODAL ---------- */
 const dialog = document.getElementById("expenseDialog");
 const titleEl = document.getElementById("modalTitle");
 const amountEl = document.getElementById("modalAmount");
 const descEl = document.getElementById("modalDesc");
+const subsSection = document.getElementById("subsSection");
+const subsBody = document.getElementById("modalSubs");
 const gallerySection = document.getElementById("gallerySection");
 const galleryEl = document.getElementById("modalGallery");
 const closeBtn = document.getElementById("modalClose");
@@ -25,6 +26,26 @@ function openModal(item, monthName) {
   descEl.textContent = item.desc || "";
   descEl.style.display = item.desc ? "block" : "none";
 
+  // subs breakdown
+  subsBody.innerHTML = "";
+  if (item.subs && item.subs.length) {
+    subsSection.style.display = "block";
+    item.subs.forEach((sub) => {
+      const tr = document.createElement("tr");
+      const tdTitle = document.createElement("td");
+      tdTitle.textContent = sub.title;
+      const tdAmount = document.createElement("td");
+      tdAmount.className = "total";
+      tdAmount.textContent = faNum(sub.amount);
+      tr.appendChild(tdTitle);
+      tr.appendChild(tdAmount);
+      subsBody.appendChild(tr);
+    });
+  } else {
+    subsSection.style.display = "none";
+  }
+
+  // images
   galleryEl.innerHTML = "";
   if (item.images && item.images.length) {
     gallerySection.style.display = "block";
@@ -52,7 +73,6 @@ function openModal(item, monthName) {
   dialog.showModal();
 }
 
-/* ---------- RENDER ---------- */
 function render(data) {
   if (data.title) {
     pageTitle.textContent = data.title;
@@ -64,27 +84,20 @@ function render(data) {
   let grandTotal = 0;
 
   (data.months || []).forEach((month) => {
-    const monthSpan =
-      month.items.length +
-      month.items.reduce((acc, it) => acc + (it.subs ? it.subs.length : 0), 0);
     const monthTotal = month.items.reduce((acc, it) => acc + it.amount, 0);
     grandTotal += monthTotal;
+    // no subs in the table anymore → one row per item → rowspan = items.length
+    const monthSpan = month.items.length;
 
     month.items.forEach((item, itemIndex) => {
       const tr = document.createElement("tr");
       tr.className = "expense";
-      if (item.paid === false) {
-        tr.classList.add("unpaid");
-      }
+      if (item.paid === false) tr.classList.add("unpaid");
       tr.tabIndex = 0;
       tr.setAttribute("role", "button");
       tr.setAttribute("aria-haspopup", "dialog");
       tr.dataset.month = month.name;
-      // store item as JSON for the modal (or use an index; JSON is simplest here)
       tr.dataset.item = JSON.stringify(item);
-
-      const hasDesc = item.desc && item.desc.trim().length > 0;
-      const hasImages = item.images && item.images.length > 0;
 
       if (itemIndex === 0) {
         const tdMonth = document.createElement("td");
@@ -96,19 +109,44 @@ function render(data) {
 
       const tdDate = document.createElement("td");
       tdDate.className = "date";
-      tdDate.rowSpan = 1 + (item.subs ? item.subs.length : 0);
       tdDate.textContent = faDay(item.day);
       tr.appendChild(tdDate);
 
+      // title cell: title on line 1, badges on line 2
       const tdCat = document.createElement("td");
-      tdCat.className = "cat" + (hasDesc || hasImages ? " has-detail" : "");
-      tdCat.textContent = item.title;
-      if (hasDesc || hasImages) {
-        const sr = document.createElement("span");
-        sr.className = "sr-only";
-        sr.textContent = " (جزئیات دارد)";
-        tdCat.appendChild(sr);
+      tdCat.className = "cat";
+
+      const inner = document.createElement("div");
+      inner.className = "cat-inner";
+
+      const titleSpan = document.createElement("span");
+      titleSpan.className = "cat-title";
+      titleSpan.textContent = item.title;
+      inner.appendChild(titleSpan);
+
+      const badges = document.createElement("span");
+      badges.className = "cat-badges";
+
+      const hasDesc = !!(item.desc && item.desc.trim());
+      const hasImages = !!(item.images && item.images.length);
+      const hasDetails =
+        hasDesc || hasImages || (item.subs && item.subs.length);
+
+      if (hasDetails) {
+        const b = document.createElement("span");
+        b.className = "badge badge-detail";
+        b.textContent = "جزئیات";
+        badges.appendChild(b);
       }
+      if (item.paid === false) {
+        const b = document.createElement("span");
+        b.className = "badge badge-unpaid";
+        b.textContent = "پرداخت نشده";
+        badges.appendChild(b);
+      }
+
+      if (badges.childNodes.length) inner.appendChild(badges);
+      tdCat.appendChild(inner);
       tr.appendChild(tdCat);
 
       const tdTotal = document.createElement("td");
@@ -117,20 +155,6 @@ function render(data) {
       tr.appendChild(tdTotal);
 
       tbody.appendChild(tr);
-
-      (item.subs || []).forEach((sub) => {
-        const subTr = document.createElement("tr");
-        const tdSub = document.createElement("td");
-        tdSub.className = "sub";
-        tdSub.textContent = sub.title;
-        const tdSubTotal = document.createElement("td");
-        tdSubTotal.className = "subtotal";
-        if (item.paid === false) subTr.classList.add("unpaid");
-        tdSubTotal.textContent = faNum(sub.amount);
-        subTr.appendChild(tdSub);
-        subTr.appendChild(tdSubTotal);
-        tbody.appendChild(subTr);
-      });
     });
 
     const subTr = document.createElement("tr");
@@ -164,8 +188,7 @@ function showError(msg) {
     '<tr><td colspan="4" class="status-msg error">' + msg + "</td></tr>";
 }
 
-/* ---------- LOAD DATA ---------- */
-fetch("https://ohinibla.github.io/building/data.json")
+fetch("data.json")
   .then((res) => {
     if (!res.ok) throw new Error("HTTP " + res.status);
     return res.json();
@@ -173,13 +196,9 @@ fetch("https://ohinibla.github.io/building/data.json")
   .then(render)
   .catch((err) => {
     console.error(err);
-    showError(
-      "خطا در بارگذاری داده‌ها. اگر فایل را مستقیم از دیسک باز کرده‌اید، " +
-      "لطفاً آن را روی یک وب‌سرور ساده اجرا کنید.",
-    );
+    showError("خطا در بارگذاری داده‌ها.");
   });
 
-/* ---------- EVENTS ---------- */
 tbody.addEventListener("click", (e) => {
   const tr = e.target.closest("tr.expense");
   if (!tr) return;
