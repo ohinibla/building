@@ -140,14 +140,23 @@ function render(data) {
     const monthSpan = month.items.length;
 
     month.items.forEach((item, itemIndex) => {
+      const hasDesc = item.desc && item.desc.trim().length > 0;
+      const hasImages = item.images && item.images.length > 0;
+      const hasSubs = item.subs && item.subs.length > 0;
+      const hasDetail = hasDesc || hasImages || hasSubs;
+
       const tr = document.createElement("tr");
       tr.className = "expense";
       if (item.paid === false) tr.classList.add("unpaid");
-      tr.tabIndex = 0;
-      tr.setAttribute("role", "button");
-      tr.setAttribute("aria-haspopup", "dialog");
-      tr.dataset.month = month.name;
-      tr.dataset.item = JSON.stringify(item);
+      if (hasDetail) {
+        tr.tabIndex = 0;
+        tr.setAttribute("role", "button");
+        tr.setAttribute("aria-haspopup", "dialog");
+        tr.dataset.month = month.name;
+        tr.dataset.item = JSON.stringify(item);
+      } else {
+        tr.classList.add("no-detail");
+      }
 
       if (itemIndex === 0) {
         const tdMonth = document.createElement("td");
@@ -175,10 +184,6 @@ function render(data) {
 
       const badges = document.createElement("span");
       badges.className = "cat-badges";
-
-      const hasDesc = !!(item.desc && item.desc.trim());
-      const hasImages = !!(item.images && item.images.length);
-      const hasSubs = !!(item.subs && item.subs.length);
 
       if (hasDesc || hasSubs) {
         const b = document.createElement("span");
@@ -250,22 +255,19 @@ fetch("data.json")
   .then(render)
   .catch((err) => {
     console.error(err);
-    showError(
-      "خطا در بارگذاری داده‌ها. اگر فایل را مستقیم از دیسک باز کرده‌اید، " +
-      "لطفاً آن را روی یک وب‌سرور ساده اجرا کنید.",
-    );
+    showError("خطا در بارگذاری داده‌ها.");
   });
 
 tbody.addEventListener("click", (e) => {
   const tr = e.target.closest("tr.expense");
-  if (!tr) return;
+  if (!tr || !tr.dataset.item) return;
   openModal(JSON.parse(tr.dataset.item), tr.dataset.month);
 });
 
 tbody.addEventListener("keydown", (e) => {
   if (e.key !== "Enter" && e.key !== " ") return;
   const tr = e.target.closest("tr.expense");
-  if (!tr) return;
+  if (!tr || !tr.dataset.item) return;
   e.preventDefault();
   openModal(JSON.parse(tr.dataset.item), tr.dataset.month);
 });
