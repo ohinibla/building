@@ -89,7 +89,7 @@
           "desc": "",
           "paid": true,
           "images": [
-            "./invoices/aifon-mehr-1404.webp"
+            "./invoices/aifon-mehr-1404"
           ],
           "subs": []
         }
@@ -146,7 +146,7 @@
           "desc": "",
           "paid": false,
           "images": [
-            "./invoices/motorkhane-mehr-1405.webp"
+            "./invoices/motorkhane-mehr-1405"
           ],
           "subs": [
             {

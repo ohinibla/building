@@ -35,7 +35,7 @@ function openLightbox(images, index) {
 
 function updateLightbox() {
   const src = lightboxImages[lightboxIndex];
-  lightboxImg.src = src;
+  lightboxImg.src = src + ".webp";
   lightboxImg.alt = "تصویر فاکتور " + faNum(lightboxIndex + 1);
   const multiple = lightboxImages.length > 1;
   lightboxPrev.hidden = !multiple;
