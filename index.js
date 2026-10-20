@@ -8,6 +8,7 @@ const pageTitle = document.getElementById("pageTitle");
 const dialog = document.getElementById("expenseDialog");
 const titleEl = document.getElementById("modalTitle");
 const descEl = document.getElementById("modalDesc");
+const descElTitle = document.getElementById("modalDescTitle");
 const subsSection = document.getElementById("subsSection");
 const subsBody = document.getElementById("modalSubs");
 const gallerySection = document.getElementById("gallerySection");
@@ -72,6 +73,7 @@ function openModal(item, monthName) {
 
   descEl.textContent = item.desc || "";
   descEl.style.display = item.desc ? "block" : "none";
+  descElTitle.style.display = item.desc ? "block" : "none";
 
   // subs
   subsBody.innerHTML = "";
