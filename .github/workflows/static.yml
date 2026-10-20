@@ -61,6 +61,7 @@ jobs:
         run: |
           rm invoices/*.jpg
           rm invoices/*.jpeg
+          ls invoices
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
