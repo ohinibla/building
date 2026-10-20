@@ -62,7 +62,7 @@
           "desc": "",
           "paid": true,
           "images": [
-            "./invoices/bargh-shahrivar-1405"
+            "invoices/bargh-shahrivar-1405"
           ],
           "subs": []
         },
@@ -91,7 +91,7 @@
           "desc": "",
           "paid": true,
           "images": [
-            "./invoices/aifon-mehr-1405"
+            "invoices/aifon-mehr-1405"
           ],
           "subs": []
         }
@@ -116,7 +116,7 @@
           "desc": "",
           "paid": true,
           "images": [
-            "./invoices/gas-mehr-1405"
+            "invoices/gas-mehr-1405"
           ],
           "subs": [
             {
@@ -150,7 +150,7 @@
           "desc": "",
           "paid": false,
           "images": [
-            "./invoices/motorkhane-mehr-1405"
+            "invoices/motorkhane-mehr-1405"
           ],
           "subs": [
             {
