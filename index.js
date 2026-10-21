@@ -26,6 +26,10 @@ const lightboxCounter = document.getElementById("lightboxCounter");
 let lightboxImages = [];
 let lightboxIndex = 0;
 
+/* Single source of truth for image paths.
+   data.json stores base names like "invoices/foo" (no extension). */
+const imgPath = (src) => src + ".webp";
+
 function openLightbox(images, index) {
   lightboxImages = images;
   lightboxIndex = index;
@@ -34,8 +38,7 @@ function openLightbox(images, index) {
 }
 
 function updateLightbox() {
-  const src = lightboxImages[lightboxIndex];
-  lightboxImg.src = src + ".webp";
+  lightboxImg.src = imgPath(lightboxImages[lightboxIndex]);
   lightboxImg.alt = "تصویر فاکتور " + faNum(lightboxIndex + 1);
   const multiple = lightboxImages.length > 1;
   lightboxPrev.hidden = !multiple;
@@ -123,6 +126,21 @@ function openModal(item, monthName) {
   dialog.showModal();
 }
 
+/* helper for grand-total flex items */
+function gtItem(labelText, valueText, className) {
+  const wrap = document.createElement("div");
+  wrap.className = "gt-item" + (className ? " " + className : "");
+  const label = document.createElement("span");
+  label.className = "gt-label";
+  label.textContent = labelText;
+  const value = document.createElement("span");
+  value.className = "gt-value";
+  value.textContent = valueText;
+  wrap.append(label, value);
+  return wrap;
+}
+
+/* ---------- RENDER ---------- */
 function render(data) {
   if (data.title) {
     pageTitle.textContent = data.title;
@@ -132,6 +150,7 @@ function render(data) {
 
   tbody.innerHTML = "";
   let grandTotal = 0;
+  let unPaidTotal = 0;
 
   (data.months || []).forEach((month) => {
     const monthTotal = month.items.reduce((acc, it) => acc + it.amount, 0);
@@ -143,6 +162,7 @@ function render(data) {
       const hasImages = item.images && item.images.length > 0;
       const hasSubs = item.subs && item.subs.length > 0;
       const hasDetail = hasDesc || hasImages || hasSubs;
+      if (item.paid === false) unPaidTotal += item.amount;
 
       const tr = document.createElement("tr");
       tr.className = "expense";
@@ -209,7 +229,7 @@ function render(data) {
       if (item.paid === false) {
         const b = document.createElement("span");
         b.className = "badge badge-unpaid";
-        b.textContent = "پرداخت نشده";
+        b.textContent = "دریافت نشده";
         tdTotal.appendChild(b);
       }
 
@@ -229,24 +249,42 @@ function render(data) {
     tbody.appendChild(subTr);
   });
 
+  // ---- grand total row ----
+  const tenantCount = Number(data.tenantCount) || 8;
+  const perUnitUnpaid = Math.round(unPaidTotal / tenantCount);
+  const perUnitGrand = Math.round(grandTotal / tenantCount);
+
   const grandTr = document.createElement("tr");
   grandTr.className = "grand-total";
-  const gLabel = document.createElement("td");
-  gLabel.colSpan = 3;
-  gLabel.textContent = "جمع کل";
-  const gSum = document.createElement("td");
-  gSum.className = "total";
-  gSum.textContent = faNum(grandTotal);
-  grandTr.appendChild(gLabel);
-  grandTr.appendChild(gSum);
+  const grandTd = document.createElement("td");
+  grandTd.colSpan = 4;
+  grandTd.className = "grand-td";
+
+  const grandFlex = document.createElement("div");
+  grandFlex.className = "grand-flex";
+  grandFlex.append(
+    gtItem("جمع دریافت نشده", faNum(unPaidTotal), "gt-unpaid"),
+    gtItem(
+      "سهم هر واحد (دریافت نشده)",
+      faNum(perUnitUnpaid),
+      "gt-share-unpaid",
+    ),
+    gtItem("جمع کل", faNum(grandTotal), "gt-grand"),
+    gtItem("سهم هر واحد (جمع کل)", faNum(perUnitGrand), "gt-share-grand"),
+  );
+
+  grandTd.appendChild(grandFlex);
+  grandTr.appendChild(grandTd);
   tbody.appendChild(grandTr);
 }
 
+/* ---------- ERROR STATE ---------- */
 function showError(msg) {
   tbody.innerHTML =
     '<tr><td colspan="4" class="status-msg error">' + msg + "</td></tr>";
 }
 
+/* ---------- LOAD DATA ---------- */
 fetch("data.json")
   .then((res) => {
     if (!res.ok) throw new Error("HTTP " + res.status);
@@ -258,6 +296,7 @@ fetch("data.json")
     showError("خطا در بارگذاری داده‌ها.");
   });
 
+/* ---------- EVENT DELEGATION ---------- */
 tbody.addEventListener("click", (e) => {
   const tr = e.target.closest("tr.expense");
   if (!tr || !tr.dataset.item) return;
