@@ -104,7 +104,7 @@ function openModal(item, monthName) {
       btn.type = "button";
       btn.setAttribute("aria-label", "باز کردن تصویر " + faNum(i + 1));
       const img = document.createElement("img");
-      img.src = src;
+      img.src = src + ".webp";
       img.alt = "تصویر فاکتور " + faNum(i + 1);
       img.loading = "lazy";
       img.onerror = () => {
