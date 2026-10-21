@@ -250,7 +250,7 @@ function render(data) {
   });
 
   // ---- grand total row ----
-  const tenantCount = Number(data.tenantCount) || 8;
+  const tenantCount = Number(data.tenantCount);
   const perUnitUnpaid = Math.round(unPaidTotal / tenantCount);
   const perUnitGrand = Math.round(grandTotal / tenantCount);
 
