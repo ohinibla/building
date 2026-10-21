@@ -171,6 +171,28 @@
           "paid": false,
           "images": [],
           "subs": []
+        },
+        {
+          "day": 29,
+          "title": "قبض برق",
+          "amount": 476300,
+          "desc": "",
+          "paid": false,
+          "images": [
+            "Bargh-shahrivar-1405-2"
+          ],
+          "subs": []
+        },
+        {
+          "day": 29,
+          "title": "قبض آب",
+          "amount": 1187400,
+          "desc": "",
+          "paid": false,
+          "images": [
+            "ab-shahrivar-1404"
+          ],
+          "subs": []
         }
       ]
     }
