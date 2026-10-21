@@ -36,11 +36,11 @@ jobs:
           quality: "80"
           out: converted-images
       - name: Save the build files
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        uses: actions/upload-artifact@v4
         with:
-          name: invoices-webp # The label of our box
-          path: converted-images # What we put inside
-          retention-days: 1 # Keep for 1 day (enough for CI)
+          name: invoices-webp 
+          path: converted-images #
+          retention-days: 1 
 
   # Single deploy job since we're just deploying
   deploy:
@@ -53,14 +53,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Fetch the build files
-        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        uses: actions/download-artifact@v4
         with:
-          name: invoices-webp # The same label as the upload
-          path: invoices/ # Where to extract the files
+          name: invoices-webp
+          path: invoices/
       - name: Removing jpg files
+        continue-on-error: true
         run: |
           rm invoices/*.jpg
           rm invoices/*.jpeg
+          rm invoices/*.png
           ls invoices
       - name: Setup Pages
         uses: actions/configure-pages@v5
