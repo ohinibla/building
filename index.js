@@ -26,6 +26,14 @@ const lightboxCounter = document.getElementById("lightboxCounter");
 let lightboxImages = [];
 let lightboxIndex = 0;
 
+
+function createSpinner() {
+  const spinner = document.createElement("img");
+  spinner.className = "spinner";
+  spinner.setAttribute("src", "https://raw.githubusercontent.com/n3r4zzurr0/svg-spinners/main/preview/bars-scale-fade-black-36.svg");
+  return spinner
+}
+
 /* Single source of truth for image paths.
    data.json stores base names like "invoices/foo" (no extension). */
 const imgPath = (src) => src + ".webp";
@@ -106,6 +114,8 @@ function openModal(item, monthName) {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.setAttribute("aria-label", "باز کردن تصویر " + faNum(i + 1));
+      const spinner = createSpinner();
+      btn.appendChild(spinner);
       const img = document.createElement("img");
       img.src = src + ".webp";
       img.alt = "تصویر فاکتور " + faNum(i + 1);
@@ -116,6 +126,7 @@ function openModal(item, monthName) {
           "display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:#999;cursor:default;";
       };
       btn.appendChild(img);
+      img.addEventListener("load", () => spinner.style.display = 'none');
       btn.addEventListener("click", () => openLightbox(images, i));
       galleryEl.appendChild(btn);
     });
