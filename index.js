@@ -1,9 +1,14 @@
 const faNum = (n) => Number(n).toLocaleString("fa-IR");
 const faDay = (n) => Number(n).toLocaleString("fa-IR", { useGrouping: false });
 
+const tableEl = document.getElementById("table");
 const tbody = document.getElementById("tableBody");
 const noticeEl = document.getElementById("notice");
-const pageTitle = document.getElementById("pageTitle");
+const tableTitle = document.getElementById("tableTitle");
+const chartTitle = document.getElementById("chartTitle")
+const chartWrapperEl = document.getElementById("chartWrapper")
+const totalChartEl = document.getElementById("totalChart")
+const billsChartEl = document.getElementById("billsChart")
 
 const dialog = document.getElementById("expenseDialog");
 const titleEl = document.getElementById("modalTitle");
@@ -154,7 +159,7 @@ function gtItem(labelText, valueText, className) {
 /* ---------- RENDER ---------- */
 function render(data) {
   if (data.title) {
-    pageTitle.textContent = data.title;
+    tableTitle.textContent = data.title;
     document.title = data.title;
   }
   if (data.notice) noticeEl.textContent = data.notice;
@@ -163,17 +168,40 @@ function render(data) {
   let grandTotal = 0;
   let unPaidTotal = 0;
 
+
+  let cleaningTotal = 0;
+  let maintenanceTotal = 0;
+  let billTotal = 0;
+  const monthNames = []
+  const powerBillData = [];
+  const waterBillData = [];
+  const gasBillData = [];
+
   (data.months || []).forEach((month) => {
     const monthTotal = month.items.reduce((acc, it) => acc + it.amount, 0);
     grandTotal += monthTotal;
     const monthSpan = month.items.length;
-
+    monthNames.push(month.name)
     month.items.forEach((item, itemIndex) => {
       const hasDesc = item.desc && item.desc.trim().length > 0;
       const hasImages = item.images && item.images.length > 0;
       const hasSubs = item.subs && item.subs.length > 0;
       const hasDetail = hasDesc || hasImages || hasSubs;
       if (item.paid === false) unPaidTotal += item.amount;
+      if (item.title.startsWith("قبض")) {
+        billTotal += item.amount
+        if (item.title === 'قبض برق') {
+          powerBillData.push(item.amount)
+        } else if (item.title === 'قبض آب') {
+          waterBillData.push(item.amount)
+        } else {
+          gasBillData.push(item.amount)
+        }
+      } else if (item.title === 'نظافت') {
+        cleaningTotal += item.amount
+      } else {
+        maintenanceTotal += item.amount
+      }
 
       const tr = document.createElement("tr");
       tr.className = "expense";
@@ -287,6 +315,87 @@ function render(data) {
   grandTd.appendChild(grandFlex);
   grandTr.appendChild(grandTd);
   tbody.appendChild(grandTr);
+
+  // ---- Chart ----
+  new Chart(totalChartEl, {
+    type: 'doughnut',
+    data: {
+      labels: [`نظافت: ${faNum(cleaningTotal)}`, `تعمیرات: ${faNum(maintenanceTotal)}`, `قبض: ${faNum(billTotal)}`],
+      datasets: [{
+        label: 'هزینه',
+        data: [cleaningTotal, maintenanceTotal, billTotal],
+        backgroundColor: [
+          '#1F77B4',
+          '#FF7F0E',
+          '#2CA02C'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          labels: { font: { family: 'vazirmatn' } },
+        },
+        title: {
+          display: true,
+          text: 'نمایه هزینه ها',
+          font: { family: 'vazirmatn' }
+        }
+      },
+    },
+  });
+
+  new Chart(billsChartEl, {
+    type: 'line',
+    data: {
+      labels: monthNames,
+      datasets: [
+        {
+          label: 'قبض آب',
+          data: waterBillData,
+          borderWidth: 1
+        },
+        {
+          label: 'قبض گاز',
+          data: gasBillData,
+          borderWidth: 1
+        },
+        {
+          label: 'قبض برق',
+          data: powerBillData,
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          labels: { font: { family: 'vazirmatn' } },
+        },
+        title: {
+          display: true,
+          text: 'روند تغییرات قبض',
+          font: {
+            family: 'vazirmatn'
+          }
+        }
+      },
+      scales: {
+        x: {
+          display: false
+        },
+        y: {
+          ticks: {
+            callback: faNum,
+            font: {
+              family: 'vazirmatn'
+            }
+          }
+        }
+      }
+    },
+  });
 }
 
 /* ---------- ERROR STATE ---------- */
@@ -326,3 +435,30 @@ closeBtn.addEventListener("click", () => dialog.close());
 dialog.addEventListener("click", (e) => {
   if (e.target === dialog) dialog.close();
 });
+
+
+tableTitle.addEventListener("click", () => {
+  tableEl.style.display = 'flex';
+  chartWrapperEl.style.display = 'none';
+  tableTitle.style.textDecoration = 'underline'
+  chartTitle.style.textDecoration = 'none'
+})
+
+chartTitle.addEventListener("click", () => {
+  chartWrapperEl.style.display = 'flex';
+  tableEl.style.display = 'none';
+  tableTitle.style.textDecoration = 'none'
+  chartTitle.style.textDecoration = 'underline'
+
+  // const totalChart = Chart.getChart('totalChart');
+  // if (totalChart) {
+  //   totalChart.reset();
+  //   totalChart.update();
+  // }
+  //
+  // const billChart = Chart.getChart('billChart');
+  // if (billChart) {
+  //   billChart.reset();
+  //   billChart.update();
+  // }
+})

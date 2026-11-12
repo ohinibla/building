@@ -23,12 +23,22 @@
         ></div>
       </div>
 
-      <header class="section-header">
-        <span class="icon" aria-hidden="true">📋</span>
-        <h1 id="pageTitle">ریز هزینه های ساختمان</h1>
+      <header class="section-header-wrapper">
+        <div class="section-header">
+          <span class="icon" aria-hidden="true">📋</span>
+          <h1 id="tableTitle" style='text-decoration: underline;'>ریز هزینه</h1>
+        </div>
+        <div class="section-header">
+          <span class="icon" aria-hidden="true">📊</span>
+          <h1 id="chartTitle">نمودار هزینه ها</h1>
+        </div>
+        <!-- <div class="section-header"> -->
+        <!--   <span class="icon" aria-hidden="true">🖼️</span> -->
+        <!--   <h1 id="galleryTitle">گالری</h1> -->
+        <!-- </div> -->
       </header>
 
-      <div class="table-wrap">
+      <div id='table' class="table-wrap">
         <table>
           <caption class="sr-only">
             ریز هزینه‌های ساختمان به تفکیک ماه
@@ -47,6 +57,10 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div id="chartWrapper" class="chart-wrapper" style="display: none">
+        <canvas id="totalChart"></canvas>
+        <canvas id="billsChart"></canvas>
       </div>
     </div>
 
@@ -104,6 +118,7 @@
       <div class="lightbox-counter" id="lightboxCounter"></div>
     </dialog>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="index.js" defer></script>
   </body>
 </html>

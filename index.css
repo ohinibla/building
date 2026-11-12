@@ -32,10 +32,25 @@ body {
   color: #1f2328;
   padding: 24px;
   margin: 0;
+  display: flex;
+  justify-content: center;
 }
 h1 {
   font-size: 1.25rem;
   margin: 0;
+}
+
+#outer {
+  max-width: 65%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.section-header-wrapper {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .section-header {
@@ -44,6 +59,7 @@ h1 {
   gap: 8px;
   margin: 0 0 16px;
 }
+
 .section-header .icon {
   font-size: 1.3rem;
 }
@@ -86,6 +102,11 @@ h1 {
     transform: scale(1.08);
     box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.25);
   }
+}
+
+.chart-wrapper {
+  flex-direction: column;
+  gap: 50px;
 }
 
 .table-wrap {
@@ -650,8 +671,15 @@ dialog.lightbox::backdrop {
   body {
     padding: 12px;
   }
+  #outer {
+    max-width: 100%;
+  }
   .table-wrap {
     border-radius: 8px;
+  }
+  .section-header h1 {
+    text-wrap: no-wrap;
+    font-size: 0.8rem;
   }
   table {
     font-size: 0.78rem;
@@ -749,11 +777,17 @@ dialog.lightbox::backdrop {
   table {
     font-size: 0.74rem;
   }
+  #outer {
+    max-width: 100%;
+  }
   th,
   td {
     padding: 5px 5px;
   }
-
+  .section-header h1 {
+    text-wrap: no-wrap;
+    font-size: 0.8rem;
+  }
   td.month,
   thead th.month-head {
     width: 28px;
