@@ -168,7 +168,7 @@
           "title": "سرویس و تعمیر موتورخانه",
           "amount": 6800000,
           "desc": "اجرت کار بابت رفع اشکال پمپ سیرکوله خطی، نصب شناور منبع انبساط، خرید شناور منبع انبساط نمره ۱/۲ و واشر واسط پمپ",
-          "paid": false,
+          "paid": true,
           "images": [
             "invoices/motorkhane-mehr-1405",
             "invoices/shenavar"
@@ -189,7 +189,7 @@
           "title": "تعمیر درب پارکینگ",
           "amount": 2500000,
           "desc": "اجرت جوشکاری لولای درب پارکینگ، به همراه الکترود، صفحه فرز و تکه پلیت",
-          "paid": false,
+          "paid": true,
           "images": [
             "invoices/darb-mehr-1405"
           ],
@@ -200,7 +200,7 @@
           "title": "قبض برق",
           "amount": 476300,
           "desc": "",
-          "paid": false,
+          "paid": true,
           "images": [
             "invoices/bargh-mehr-1405-2"
           ],
@@ -211,7 +211,7 @@
           "title": "قبض آب",
           "amount": 1187400,
           "desc": "",
-          "paid": false,
+          "paid": true,
           "images": [
             "invoices/ab-mehr-1405"
           ],
