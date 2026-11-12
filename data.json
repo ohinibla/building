@@ -12,9 +12,7 @@
           "amount": 1190000,
           "desc": "از مازاد ماه قبل ۶۸۰ هزار تومان پرداخت شد",
           "paid": true,
-          "images": [
-            "invoices/nezafat-mordad-1405"
-          ],
+          "images": ["invoices/nezafat-mordad-1405"],
           "subs": [
             {
               "title": "دستمزد",
@@ -28,7 +26,7 @@
         },
         {
           "day": 26,
-          "title": "لوله آب سرد ساختمان واقع در پارکینگ",
+          "title": "لوله آب سرد ساختمان",
           "amount": 13000000,
           "desc": "مازاد ۳۰۰ هزار تومان",
           "paid": true,
@@ -50,9 +48,7 @@
           "amount": 240000,
           "desc": "از مازاد ماه قبل کلاً پرداخت شد",
           "paid": true,
-          "images": [
-            "invoices/lamp-mordad-1405"
-          ],
+          "images": ["invoices/lamp-mordad-1405"],
           "subs": []
         }
       ]
@@ -66,9 +62,7 @@
           "amount": 540900,
           "desc": "",
           "paid": true,
-          "images": [
-            "invoices/bargh-shahrivar-1405"
-          ],
+          "images": ["invoices/bargh-shahrivar-1405"],
           "subs": []
         },
         {
@@ -77,9 +71,7 @@
           "amount": 1217400,
           "desc": "",
           "paid": true,
-          "images": [
-            "invoices/ab-shahrivar-1405"
-          ],
+          "images": ["invoices/ab-shahrivar-1405"],
           "subs": []
         },
         {
@@ -97,9 +89,7 @@
           "amount": 550000,
           "desc": "",
           "paid": true,
-          "images": [
-            "invoices/aifon-mehr-1405"
-          ],
+          "images": ["invoices/aifon-mehr-1405"],
           "subs": []
         }
       ]
@@ -113,9 +103,7 @@
           "amount": 599100,
           "desc": "",
           "paid": true,
-          "images": [
-            "invoices/bargh-mehr-1405"
-          ],
+          "images": ["invoices/bargh-mehr-1405"],
           "subs": []
         },
         {
@@ -124,10 +112,7 @@
           "amount": 1453300,
           "desc": "",
           "paid": true,
-          "images": [
-            "invoices/gas-mehr-1405",
-            "invoices/gas-mehr-1405-2"
-          ],
+          "images": ["invoices/gas-mehr-1405", "invoices/gas-mehr-1405-2"],
           "subs": [
             {
               "title": "قبض",
@@ -149,9 +134,7 @@
           "amount": 1917000,
           "desc": "",
           "paid": true,
-          "images": [
-            "invoices/nezafat-mehr-1405"
-          ],
+          "images": ["invoices/nezafat-mehr-1405"],
           "subs": [
             {
               "title": "دستمزد",
@@ -169,10 +152,7 @@
           "amount": 6800000,
           "desc": "اجرت کار بابت رفع اشکال پمپ سیرکوله خطی، نصب شناور منبع انبساط، خرید شناور منبع انبساط نمره ۱/۲ و واشر واسط پمپ",
           "paid": true,
-          "images": [
-            "invoices/motorkhane-mehr-1405",
-            "invoices/shenavar"
-          ],
+          "images": ["invoices/motorkhane-mehr-1405", "invoices/shenavar"],
           "subs": [
             {
               "title": "دستمزد",
@@ -190,9 +170,7 @@
           "amount": 2500000,
           "desc": "اجرت جوشکاری لولای درب پارکینگ، به همراه الکترود، صفحه فرز و تکه پلیت",
           "paid": true,
-          "images": [
-            "invoices/darb-mehr-1405"
-          ],
+          "images": ["invoices/darb-mehr-1405"],
           "subs": []
         },
         {
@@ -201,9 +179,7 @@
           "amount": 476300,
           "desc": "",
           "paid": true,
-          "images": [
-            "invoices/bargh-mehr-1405-2"
-          ],
+          "images": ["invoices/bargh-mehr-1405-2"],
           "subs": []
         },
         {
@@ -212,9 +188,7 @@
           "amount": 1187400,
           "desc": "",
           "paid": true,
-          "images": [
-            "invoices/ab-mehr-1405"
-          ],
+          "images": ["invoices/ab-mehr-1405"],
           "subs": []
         }
       ]
@@ -228,9 +202,7 @@
           "amount": 1064500,
           "desc": "",
           "paid": false,
-          "images": [
-            "invoices/ab-aban-1405"
-          ],
+          "images": ["invoices/ab-aban-1405"],
           "subs": []
         }
       ]
