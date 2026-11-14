@@ -5,10 +5,10 @@ const tableEl = document.getElementById("table");
 const tbody = document.getElementById("tableBody");
 const noticeEl = document.getElementById("notice");
 const tableTitle = document.getElementById("tableTitle");
-const chartTitle = document.getElementById("chartTitle")
-const chartWrapperEl = document.getElementById("chartWrapper")
-const totalChartEl = document.getElementById("totalChart")
-const billsChartEl = document.getElementById("billsChart")
+const chartTitle = document.getElementById("chartTitle");
+const chartWrapperEl = document.getElementById("chartWrapper");
+const totalChartEl = document.getElementById("totalChart");
+const billsChartEl = document.getElementById("billsChart");
 
 const dialog = document.getElementById("expenseDialog");
 const titleEl = document.getElementById("modalTitle");
@@ -31,12 +31,14 @@ const lightboxCounter = document.getElementById("lightboxCounter");
 let lightboxImages = [];
 let lightboxIndex = 0;
 
-
 function createSpinner() {
   const spinner = document.createElement("img");
   spinner.className = "spinner";
-  spinner.setAttribute("src", "https://raw.githubusercontent.com/n3r4zzurr0/svg-spinners/main/preview/bars-scale-fade-black-36.svg");
-  return spinner
+  spinner.setAttribute(
+    "src",
+    "https://raw.githubusercontent.com/n3r4zzurr0/svg-spinners/main/preview/bars-scale-fade-black-36.svg",
+  );
+  return spinner;
 }
 
 /* Single source of truth for image paths.
@@ -131,7 +133,7 @@ function openModal(item, monthName) {
           "display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:#999;cursor:default;";
       };
       btn.appendChild(img);
-      img.addEventListener("load", () => spinner.style.display = 'none');
+      img.addEventListener("load", () => (spinner.style.display = "none"));
       btn.addEventListener("click", () => openLightbox(images, i));
       galleryEl.appendChild(btn);
     });
@@ -168,11 +170,10 @@ function render(data) {
   let grandTotal = 0;
   let unPaidTotal = 0;
 
-
   let cleaningTotal = 0;
   let maintenanceTotal = 0;
   let billTotal = 0;
-  const monthNames = []
+  const monthNames = [];
   const powerBillData = [];
   const waterBillData = [];
   const gasBillData = [];
@@ -181,7 +182,7 @@ function render(data) {
     const monthTotal = month.items.reduce((acc, it) => acc + it.amount, 0);
     grandTotal += monthTotal;
     const monthSpan = month.items.length;
-    monthNames.push(month.name)
+    monthNames.push(month.name);
     month.items.forEach((item, itemIndex) => {
       const hasDesc = item.desc && item.desc.trim().length > 0;
       const hasImages = item.images && item.images.length > 0;
@@ -189,18 +190,18 @@ function render(data) {
       const hasDetail = hasDesc || hasImages || hasSubs;
       if (item.paid === false) unPaidTotal += item.amount;
       if (item.title.startsWith("قبض")) {
-        billTotal += item.amount
-        if (item.title === 'قبض برق') {
-          powerBillData.push(item.amount)
-        } else if (item.title === 'قبض آب') {
-          waterBillData.push(item.amount)
+        billTotal += item.amount;
+        if (item.title === "قبض برق") {
+          powerBillData.push(item.amount);
+        } else if (item.title === "قبض آب") {
+          waterBillData.push(item.amount);
         } else {
-          gasBillData.push(item.amount)
+          gasBillData.push(item.amount);
         }
-      } else if (item.title === 'نظافت') {
-        cleaningTotal += item.amount
+      } else if (item.title === "نظافت") {
+        cleaningTotal += item.amount;
       } else {
-        maintenanceTotal += item.amount
+        maintenanceTotal += item.amount;
       }
 
       const tr = document.createElement("tr");
@@ -318,82 +319,84 @@ function render(data) {
 
   // ---- Chart ----
   new Chart(totalChartEl, {
-    type: 'doughnut',
+    type: "doughnut",
     data: {
-      labels: [`نظافت: ${faNum(cleaningTotal)}`, `تعمیرات: ${faNum(maintenanceTotal)}`, `قبض: ${faNum(billTotal)}`],
-      datasets: [{
-        label: 'هزینه',
-        data: [cleaningTotal, maintenanceTotal, billTotal],
-        backgroundColor: [
-          '#1F77B4',
-          '#FF7F0E',
-          '#2CA02C'
-        ],
-        borderWidth: 1
-      }]
+      labels: [
+        `نظافت: ${faNum(cleaningTotal)}`,
+        `تعمیرات: ${faNum(maintenanceTotal)}`,
+        `قبض: ${faNum(billTotal)}`,
+      ],
+      datasets: [
+        {
+          label: "هزینه",
+          data: [cleaningTotal, maintenanceTotal, billTotal],
+          backgroundColor: ["#1F77B4", "#FF7F0E", "#2CA02C"],
+          borderWidth: 1,
+        },
+      ],
     },
     options: {
       plugins: {
         legend: {
-          labels: { font: { family: 'vazirmatn' } },
+          labels: { font: { family: "vazirmatn" } },
         },
         title: {
           display: true,
-          text: 'نمایه هزینه ها',
-          font: { family: 'vazirmatn' }
-        }
+          text: "نمایه هزینه ها",
+          font: { family: "vazirmatn" },
+        },
       },
     },
   });
 
   new Chart(billsChartEl, {
-    type: 'line',
+    type: "line",
     data: {
       labels: monthNames,
       datasets: [
         {
-          label: 'قبض آب',
+          label: "قبض آب",
           data: waterBillData,
-          borderWidth: 1
+          borderWidth: 1,
         },
         {
-          label: 'قبض گاز',
+          label: "قبض گاز",
           data: gasBillData,
-          borderWidth: 1
+          borderWidth: 1,
         },
         {
-          label: 'قبض برق',
+          label: "قبض برق",
           data: powerBillData,
-          borderWidth: 1
-        }
-      ]
+          borderWidth: 1,
+        },
+      ],
     },
     options: {
       plugins: {
         legend: {
-          labels: { font: { family: 'vazirmatn' } },
+          labels: { font: { family: "vazirmatn" } },
         },
         title: {
           display: true,
-          text: 'روند تغییرات قبض',
+          text: "روند تغییرات قبض",
           font: {
-            family: 'vazirmatn'
-          }
-        }
+            family: "vazirmatn",
+          },
+        },
       },
       scales: {
         x: {
-          display: false
+          display: false,
         },
         y: {
           ticks: {
             callback: faNum,
             font: {
-              family: 'vazirmatn'
-            }
-          }
-        }
-      }
+              family: "vazirmatn",
+            },
+          },
+        },
+      },
     },
   });
 }
@@ -436,29 +439,28 @@ dialog.addEventListener("click", (e) => {
   if (e.target === dialog) dialog.close();
 });
 
-
 tableTitle.addEventListener("click", () => {
-  tableEl.style.display = 'flex';
-  chartWrapperEl.style.display = 'none';
-  tableTitle.style.textDecoration = 'underline'
-  chartTitle.style.textDecoration = 'none'
-})
+  tableEl.style.display = "flex";
+  chartWrapperEl.style.display = "none";
+  tableTitle.style.textDecoration = "underline";
+  chartTitle.style.textDecoration = "none";
+});
 
 chartTitle.addEventListener("click", () => {
-  chartWrapperEl.style.display = 'flex';
-  tableEl.style.display = 'none';
-  tableTitle.style.textDecoration = 'none'
-  chartTitle.style.textDecoration = 'underline'
+  chartWrapperEl.style.display = "flex";
+  tableEl.style.display = "none";
+  tableTitle.style.textDecoration = "none";
+  chartTitle.style.textDecoration = "underline";
 
-  // const totalChart = Chart.getChart('totalChart');
-  // if (totalChart) {
-  //   totalChart.reset();
-  //   totalChart.update();
-  // }
-  //
-  // const billChart = Chart.getChart('billChart');
-  // if (billChart) {
-  //   billChart.reset();
-  //   billChart.update();
-  // }
-})
+  const totalChart = Chart.getChart("totalChart");
+  if (totalChart) {
+    totalChart.reset();
+    totalChart.update();
+  }
+
+  const billChart = Chart.getChart("billChart");
+  if (billChart) {
+    billChart.reset();
+    billChart.update();
+  }
+});
