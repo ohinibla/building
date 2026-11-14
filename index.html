@@ -24,11 +24,23 @@
       </div>
 
       <header class="section-header-wrapper">
-        <div class="section-header">
+        <div
+          id="tableBtn"
+          class="section-header is-active"
+          role="tab"
+          aria-selected="true"
+          tabindex="0"
+        >
           <span class="icon" aria-hidden="true">📋</span>
-          <h1 id="tableTitle" style='text-decoration: underline;'>ریز هزینه</h1>
+          <h1 id="tableTitle">ریز هزینه</h1>
         </div>
-        <div class="section-header">
+        <div
+          id="chartBtn"
+          class="section-header"
+          role="tab"
+          aria-selected="false"
+          tabindex="0"
+        >
           <span class="icon" aria-hidden="true">📊</span>
           <h1 id="chartTitle">نمودار هزینه ها</h1>
         </div>
@@ -38,7 +50,7 @@
         <!-- </div> -->
       </header>
 
-      <div id='table' class="table-wrap">
+      <div id="table" class="table-wrap">
         <table>
           <caption class="sr-only">
             ریز هزینه‌های ساختمان به تفکیک ماه

@@ -6,9 +6,12 @@ const tbody = document.getElementById("tableBody");
 const noticeEl = document.getElementById("notice");
 const tableTitle = document.getElementById("tableTitle");
 const chartTitle = document.getElementById("chartTitle");
+const tableBtn = document.getElementById("tableBtn");
+const chartBtn = document.getElementById("chartBtn");
 const chartWrapperEl = document.getElementById("chartWrapper");
 const totalChartEl = document.getElementById("totalChart");
 const billsChartEl = document.getElementById("billsChart");
+const tabs = document.querySelectorAll(".section-header");
 
 const dialog = document.getElementById("expenseDialog");
 const titleEl = document.getElementById("modalTitle");
@@ -361,7 +364,7 @@ function render(data) {
         },
         {
           label: "قبض گاز",
-          data: gasBillData,
+          data: [588100, 594300].concat(gasBillData.slice(1, -1)),
           borderWidth: 1,
         },
         {
@@ -439,18 +442,16 @@ dialog.addEventListener("click", (e) => {
   if (e.target === dialog) dialog.close();
 });
 
-tableTitle.addEventListener("click", () => {
+tableBtn.addEventListener("click", () => {
   tableEl.style.display = "flex";
   chartWrapperEl.style.display = "none";
-  tableTitle.style.textDecoration = "underline";
   chartTitle.style.textDecoration = "none";
 });
 
-chartTitle.addEventListener("click", () => {
+chartBtn.addEventListener("click", () => {
   chartWrapperEl.style.display = "flex";
   tableEl.style.display = "none";
   tableTitle.style.textDecoration = "none";
-  chartTitle.style.textDecoration = "underline";
 
   const totalChart = Chart.getChart("totalChart");
   if (totalChart) {
@@ -463,4 +464,23 @@ chartTitle.addEventListener("click", () => {
     billChart.reset();
     billChart.update();
   }
+});
+
+tabs.forEach((tab) => {
+  const activate = () => {
+    tabs.forEach((t) => {
+      t.classList.remove("is-active");
+      t.setAttribute("aria-selected", "false");
+    });
+    tab.classList.add("is-active");
+    tab.setAttribute("aria-selected", "true");
+  };
+
+  tab.addEventListener("click", activate);
+  tab.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      activate();
+    }
+  });
 });
